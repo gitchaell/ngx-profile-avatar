@@ -28,14 +28,15 @@ export class FaceTracker extends EventDispatcher {
 
 				window['localStream'] = stream;
 
-				this.predictor.start({ stream }).then(() => {
+				this.predictor.start({ stream })
+					.then(() => {
 
-					this.subscription = this.predictor.dataStream.subscribe(data => {
-						super.dispatchEvent({ type: 'faceDetection', data });
-					});
+						this.subscription = this.predictor.dataStream.subscribe(data => {
+							super.dispatchEvent({ type: 'faceDetection', data });
+						});
 
-				});
-
+					})
+					.catch(console.error);
 
 			})
 			.catch(console.error);
