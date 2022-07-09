@@ -40,7 +40,11 @@
     "tslib": "^1.10.0"
   },
   "dependencies": {
+    "@quarkworks-inc/avatar-webkit": "^0.9.9",
     "@types/three": "^0.141.0",
     "three": "^0.142.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.3"
   }
 }
