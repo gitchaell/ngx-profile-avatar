@@ -1,5 +1,5 @@
 import { Scene, AmbientLight, DirectionalLight, SpotLight } from 'three';
-import { AvatarObject3D } from '../objects/avatar.object';
+import { AvatarObject3D } from '../avatar/avatar.object';
 
 export class SceneBuilder {
 

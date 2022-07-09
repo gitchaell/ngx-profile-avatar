@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AvatarTracker } from 'projects/ngx-profile-avatar/src/public-api';
 
 @Component({
 	selector: 'app-root',
@@ -7,7 +6,8 @@ import { AvatarTracker } from 'projects/ngx-profile-avatar/src/public-api';
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-	tracker: AvatarTracker = 'cursor';
+
+	tracker = 'cursor';
 
 	onLoadingAvatar({ loaded, total }: ProgressEvent) {
 		console.log(`Loading : ${Math.round(loaded / total * 100)}%`);

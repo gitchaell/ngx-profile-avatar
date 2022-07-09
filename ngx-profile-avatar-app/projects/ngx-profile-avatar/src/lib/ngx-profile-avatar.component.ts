@@ -1,19 +1,16 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Clock } from 'three';
-// Resolver
-import { GLTFResolver } from './resolvers/gtlf.resolver';
-// Factory
-import { RendererFactory } from './factories/renderer.factory';
-import { SceneFactory } from './factories/scene.factory';
-import { CameraFactory } from './factories/camera.factory';
-import { AvatarFactory } from './factories/avatar.factory';
-import { ControlFactory } from './factories/control.factory';
-// Object
-import { AvatarObject3D } from './objects/avatar.object';
-// Model
-import { Canvas } from './models/canvas';
-// Type
-import { AvatarTracker } from './avatar-tracker.type';
+import {
+	Tracker,
+	GLTFResolver,
+	Canvas,
+	RendererFactory,
+	CameraFactory,
+	AvatarFactory,
+	SceneFactory,
+	ControlFactory,
+	AvatarObject3D,
+} from './index';
 
 
 @Component({
@@ -33,32 +30,25 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 	@Input() public url: string;
 
 
-	@Input() public set tracker(tracker: AvatarTracker) {
+	@Input() public set tracker(tracker: Tracker) {
 		this._tracker = tracker;
 		this.main();
 	}
 
-	public get tracker(): AvatarTracker {
+	public get tracker(): Tracker {
 		return this._tracker;
 	}
 
-	private _tracker: AvatarTracker;
+	private _tracker: Tracker;
 
 	@Output() onLoading = new EventEmitter<ProgressEvent>();
 
 
-	private get canvas() {
-		return this.canvasRef.nativeElement;
-	}
+	private get canvas() { return this.canvasRef.nativeElement; }
 
-	private get container() {
-		return this.canvas.parentNode;
-	}
+	private get container() { return this.canvas.parentNode; }
 
-
-	private get GLTFResolver() {
-		return new GLTFResolver();
-	}
+	private get GLTFResolver() { return new GLTFResolver(); }
 
 
 	private main() {

@@ -1,5 +1,5 @@
-import { CameraBuilder } from '../builders/camera.builder';
-import { Canvas } from '../models/canvas';
+import { Canvas } from "../canvas/canvas.model";
+import { CameraBuilder } from "./camera.builder";
 
 export class CameraFactory {
 

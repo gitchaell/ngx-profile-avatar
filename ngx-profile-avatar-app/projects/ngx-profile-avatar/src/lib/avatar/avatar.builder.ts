@@ -1,8 +1,9 @@
 import { WebGLRenderer, PerspectiveCamera } from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { CursorTracker } from '../helpers/cursor-tracker.helper';
-import { FaceTracker } from '../helpers/face-tracker.helper';
-import { AvatarObject3D } from '../objects/avatar.object';
+import { CursorTracker } from '../trackers/cursor.tracker';
+import { FaceTracker } from '../trackers/face.tracker';
+import { AvatarObject3D } from './avatar.object';
+
 
 
 export class AvatarBuilder {

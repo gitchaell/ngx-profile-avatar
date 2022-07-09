@@ -1,5 +1,5 @@
-import { ControlBuilder } from '../builders/control.builder';
 import { PerspectiveCamera, WebGLRenderer } from 'three';
+import { ControlBuilder } from './control.builder';
 
 export class ControlFactory {
 

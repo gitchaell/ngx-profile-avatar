@@ -1,0 +1,1 @@
+export type Tracker = 'cursor' | 'face';

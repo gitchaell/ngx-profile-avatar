@@ -1,7 +1,7 @@
 import { EventDispatcher } from 'three';
 import { AUPredictor, Subscription } from '@quarkworks-inc/avatar-webkit';
 
-const API_TOKEN = '110546ae-627f-48d4-9cf8-fd8850e0ac7f';
+const FaceTrackerApiToken = '110546ae-627f-48d4-9cf8-fd8850e0ac7f';
 
 export class FaceTracker extends EventDispatcher {
 
@@ -21,7 +21,10 @@ export class FaceTracker extends EventDispatcher {
 			})
 			.then(stream => {
 
-				this.predictor = new AUPredictor({ apiToken: API_TOKEN, shouldMirrorOutput: true });
+				this.predictor = new AUPredictor({
+					apiToken: FaceTrackerApiToken,
+					shouldMirrorOutput: true
+				});
 
 				window['localStream'] = stream;
 

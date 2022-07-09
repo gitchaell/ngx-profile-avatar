@@ -1,7 +1,8 @@
 import { AnimationMixer, Group, Mesh, Object3D, Vector3, Vector2, PerspectiveCamera } from 'three';
 import { BlendShapeKeys, BlendShapes, Rotation, Transform } from '@quarkworks-inc/avatar-webkit';
-import { mapRange, lerp } from '../utils';
-import { AvatarTracker } from '../avatar-tracker.type';
+import { Tracker } from '../trackers/tracker.type';
+import { mapRange } from '../utils/map-range.util';
+import { lerp } from '../utils/lerp.util';
 
 
 export class AvatarObject3D extends Object3D {
@@ -89,7 +90,7 @@ export class AvatarObject3D extends Object3D {
 
 
 
-	update(delta: number, tracker: AvatarTracker) {
+	update(delta: number, tracker: Tracker) {
 		if (tracker === 'cursor') this.trackCursor();
 		if (tracker === 'face') this.trackFace();
 		this.mixer.update(delta);

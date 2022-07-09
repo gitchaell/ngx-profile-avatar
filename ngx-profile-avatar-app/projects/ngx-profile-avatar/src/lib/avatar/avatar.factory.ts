@@ -1,7 +1,7 @@
 import { WebGLRenderer, PerspectiveCamera } from 'three';
-import { AvatarBuilder } from '../builders/avatar.builder';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { AvatarTracker } from '../avatar-tracker.type';
+import { Tracker } from '../trackers/tracker.type';
+import { AvatarBuilder } from './avatar.builder';
 
 export class AvatarFactory {
 
@@ -13,7 +13,7 @@ export class AvatarFactory {
 		return this;
 	}
 
-	buildAvatar(tracker: AvatarTracker) {
+	buildAvatar(tracker: Tracker) {
 
 		const builder = new AvatarBuilder(this.world, this.camera, this.renderer);
 

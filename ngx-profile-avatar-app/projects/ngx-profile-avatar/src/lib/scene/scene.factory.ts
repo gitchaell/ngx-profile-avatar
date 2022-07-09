@@ -1,5 +1,5 @@
-import { SceneBuilder } from '../builders/scene.builder';
-import { AvatarObject3D } from '../objects/avatar.object';
+import { AvatarObject3D } from "../avatar/avatar.object";
+import { SceneBuilder } from "./scene.builder";
 
 export class SceneFactory {
 

@@ -4,9 +4,8 @@ import { NgxProfileAvatarComponent } from './ngx-profile-avatar.component';
 
 
 @NgModule({
-  declarations: [NgxProfileAvatarComponent],
-  imports: [
-  ],
-  exports: [NgxProfileAvatarComponent]
+	declarations: [NgxProfileAvatarComponent],
+	imports: [],
+	exports: [NgxProfileAvatarComponent]
 })
 export class NgxProfileAvatarModule { }

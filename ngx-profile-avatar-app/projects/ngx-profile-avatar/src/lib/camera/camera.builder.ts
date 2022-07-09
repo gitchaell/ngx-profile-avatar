@@ -1,5 +1,5 @@
 import { PerspectiveCamera } from 'three';
-import { Canvas } from '../models/canvas';
+import { Canvas } from '../canvas/canvas.model';
 
 export class CameraBuilder {
 

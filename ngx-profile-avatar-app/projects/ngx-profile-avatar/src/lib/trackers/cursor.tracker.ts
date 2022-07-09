@@ -1,5 +1,5 @@
 import { Vector2, EventDispatcher, Vector3 } from 'three';
-import { remap } from '../utils';
+import { remap } from '../utils/remap.util';
 
 export class CursorTracker extends EventDispatcher {
 
