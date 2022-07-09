@@ -6,7 +6,15 @@ Interactive 3D Avatar Profile Viewer generated in Ready Player Me
 
 ### Cursor Tracker
 
+> La rotacion del modelo, cabeza, ojos y cuello reaccionara al movimiento del cursor.
+
+![Cursor Tracker Demo](../../../.github/demos/cursor-tracker.demo.gif)
+
 ### Face Tracker
+
+> La rotacion del modelo, cabeza, cuello y las animaciones faciales reaccionaran a sus expresiones y movimientos detectados por la camara.
+
+![Face Tracker Demo](../../../.github/demos/face-tracker.demo.gif)
 
 ## Genera tu Avatar 3D
 
@@ -54,5 +62,8 @@ export class AppModule { }
 | Atributo | Descripcion | Type | Default |
 |:---------|:------------|:-----|:--------|
 | `[url]` |Ubicación publica o local del archivo `.glb` que contiene el modelo 3d de su avatar.| `string` | `null` |
-| `[tracker]` |Modo de animacion de su modelo. Con la opcion `cursor` , el modelo tendra movimientos segun la posicion del cursor. Con la opcion `face` , el model tendra movimientos segun sus propias expresiones faciales.| `'cursor' | 'face'` | `'cursor'` |
+| `[tracker]` |Metodo de reaccion de su modelo.| `'cursor', 'face'` | `'cursor'` |
 | `(onLoading)` |Callback para saber el progreso de carga del archivo `.glb` | `EventEmitter<ProgressEvent>` | `-` |
+
+> **Importante**
+> De preferencia, define tracker como `cursor` . La opcion `face` todavia es experimental.
