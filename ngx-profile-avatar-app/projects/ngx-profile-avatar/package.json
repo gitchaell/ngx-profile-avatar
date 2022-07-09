@@ -28,23 +28,20 @@
     "readyplayerme"
   ],
   "license": "MIT",
-  "scripts": {
-    "publish": "npm publish"
-  },
   "publishConfig": {
     "access": "public"
   },
   "peerDependencies": {
     "@angular/common": "^9.0.7",
     "@angular/core": "^9.0.7",
-    "tslib": "^1.10.0"
-  },
-  "dependencies": {
     "@quarkworks-inc/avatar-webkit": "^0.9.9",
-    "@types/three": "^0.141.0",
     "three": "^0.142.0"
   },
+  "dependencies": {
+    "tslib": "^1.10.0"
+  },
   "devDependencies": {
-    "@types/node": "^18.0.3"
+    "@types/node": "^18.0.3",
+    "@types/three": "^0.141.0"
   }
 }
