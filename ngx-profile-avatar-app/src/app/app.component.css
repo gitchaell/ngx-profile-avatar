@@ -1,0 +1,10 @@
+fieldset.tracker-form {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  padding: 5px 20px 5px 10px;
+}
+
+input {
+  margin: 0.4rem;
+}

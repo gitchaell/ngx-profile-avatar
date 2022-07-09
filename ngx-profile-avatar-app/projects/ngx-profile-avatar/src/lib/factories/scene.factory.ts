@@ -3,17 +3,17 @@ import { AvatarObject3D } from '../objects/avatar.object';
 
 export class SceneFactory {
 
-	constructor() {
+	constructor(private avatar: AvatarObject3D) {
 		return this;
 	}
 
-	buildScene(avatar: AvatarObject3D) {
+	buildScene() {
 		return new SceneBuilder()
 			.withAmbientLight()
 			.withBackLight()
 			.withFillLight()
 			.withKeyLight()
-			.withAvatar(avatar)
+			.withAvatar(this.avatar)
 			.build();
 	}
 

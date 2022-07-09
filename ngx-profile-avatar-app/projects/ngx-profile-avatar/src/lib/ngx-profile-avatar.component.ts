@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { PerspectiveCamera, WebGLRenderer } from 'three';
+import { Clock } from 'three';
 // Resolver
 import { GLTFResolver } from './resolvers/gtlf.resolver';
 // Factory
@@ -10,11 +10,11 @@ import { AvatarFactory } from './factories/avatar.factory';
 import { ControlFactory } from './factories/control.factory';
 // Object
 import { AvatarObject3D } from './objects/avatar.object';
-// Input
-import { AvatarInput, AvatarTracker } from './inputs/avatar.input';
 // Model
 import { Canvas } from './models/canvas';
-import { Clocker } from './models/clock';
+
+
+type AvatarTracker = 'cursor' | 'face';
 
 
 @Component({
@@ -32,59 +32,76 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 	@ViewChild('canvas') private canvasRef: ElementRef;
 
 	@Input() public url: string;
-	@Input() public tracker: AvatarTracker;
 
 
-	private async main() {
-
-		const canvas = new Canvas(this.canvasRef.nativeElement);
-
-		const renderer = new RendererFactory(canvas).buildRenderer();
-
-		const world = await new GLTFResolver().resolve(this.url);
-
-		const camera = new CameraFactory(canvas).buildCamera();
-
-		const avatar = new AvatarFactory(renderer, world, camera).buildAvatar(new AvatarInput({ url: this.url, tracker: this.tracker }));
-
-		const scene = new SceneFactory().buildScene(avatar);
-
-		new ControlFactory(camera, renderer).buildControl();
-
-		const clock = new Clocker();
-
-
-		document.body.appendChild(renderer.domElement);
-
-		(function render() {
-			window.requestAnimationFrame(render);
-			renderer.clear();
-			renderer.render(scene, camera);
-			scene.traverse((element: AvatarObject3D) => element?.update?.(clock.delta));
-		}());
-
-		this.createResizeHandler(renderer, camera);
-
+	@Input() public set tracker(tracker: AvatarTracker) {
+		this._tracker = tracker;
+		this.main();
 	}
 
-	private createResizeHandler(renderer: WebGLRenderer, camera: PerspectiveCamera) {
-		function onResize() {
-			const { clientWidth, clientHeight } = renderer.domElement;
-			camera.aspect = clientWidth / clientHeight;
-			camera.updateProjectionMatrix();
-			renderer.setSize(clientWidth, clientHeight);
-		}
+	public get tracker(): AvatarTracker {
+		return this._tracker;
+	}
 
-		window.addEventListener('resize', onResize);
-	};
+	private _tracker: AvatarTracker;
+
+
+	private get canvas() {
+		return this.canvasRef.nativeElement;
+	}
+
+	private get container() {
+		return this.canvas.parentNode;
+	}
+
+
+	private main() {
+
+		new GLTFResolver()
+			.resolve(this.url)
+			.then(world => {
+
+				const canvas = new Canvas(this.canvas);
+
+				const renderer = new RendererFactory(canvas).buildRenderer();
+
+				const camera = new CameraFactory(canvas).buildCamera();
+
+				const avatar = new AvatarFactory(renderer, world, camera).buildAvatar(this.tracker);
+
+				const scene = new SceneFactory(avatar).buildScene();
+
+				const control = new ControlFactory(camera, renderer).buildControl();
+
+				const clock = new Clock();
+
+				this.container.appendChild(renderer.domElement);
+
+				(function render() {
+					window.requestAnimationFrame(render);
+					renderer.clear();
+					renderer.render(scene, camera);
+					scene.traverse((element: AvatarObject3D) => element?.update?.(clock.getDelta()));
+				}());
+
+				window.addEventListener('resize', () => {
+					camera.aspect = canvas.aspect;
+					camera.updateProjectionMatrix();
+					control.update();
+					renderer.setSize(canvas.width, canvas.height);
+				});
+
+			})
+			.catch(console.error);
+	}
 
 
 	constructor() { }
 
 	ngOnInit() { }
 
-	async ngAfterViewInit() {
-		await this.main();
+	ngAfterViewInit() {
+		this.main();
 	}
 
 }

@@ -1,4 +1,4 @@
-import { Vector3, WebGLRenderer, PerspectiveCamera } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { CursorTracker } from '../helpers/cursor-tracker.helper';
 import { FaceTracker } from '../helpers/face-tracker.helper';
@@ -8,6 +8,8 @@ import { AvatarObject3D } from '../objects/avatar.object';
 export class AvatarBuilder {
 
 	avatar: AvatarObject3D;
+	cursorTracker: CursorTracker;
+	faceTracker: FaceTracker;
 
 	constructor(
 		private world: GLTF,
@@ -15,19 +17,21 @@ export class AvatarBuilder {
 		private renderer: WebGLRenderer,
 	) {
 		this.avatar = new AvatarObject3D(this.world.scene, this.camera);
+		this.cursorTracker = new CursorTracker(this.renderer.domElement);
+		this.faceTracker = new FaceTracker();
+
 		return this;
 	}
 
 	withCursorTracking() {
 
-		const cursorTracker = new CursorTracker(this.renderer.domElement);
+		this.cursorTracker.start();
 
-		cursorTracker.addEventListener('deltaToMouse', ({ data }) => {
-			const { x, y } = data.clampScalar(-0.65, 0.65);
-			this.avatar.setCursorRotation(new Vector3(-y, x, 0));
+		this.cursorTracker.addEventListener('cursorRotation', ({ data }) => {
+			this.avatar.setCursorRotation(data);
 		});
 
-		cursorTracker.addEventListener('mousePosition', ({ data }) => {
+		this.cursorTracker.addEventListener('cursorPosition', ({ data }) => {
 			this.avatar.setCursorPosition(data);
 		});
 
@@ -36,9 +40,9 @@ export class AvatarBuilder {
 
 	withFaceTracking() {
 
-		const faceTracker = new FaceTracker();
+		this.faceTracker.start();
 
-		faceTracker.addEventListener('faceDetection', ({ data }) => {
+		this.faceTracker.addEventListener('faceDetection', ({ data }) => {
 			this.avatar.setFaceExpressions(data.blendShapes);
 			this.avatar.setFaceRotation(data.rotation);
 			this.avatar.setFaceTransform(data.transform);

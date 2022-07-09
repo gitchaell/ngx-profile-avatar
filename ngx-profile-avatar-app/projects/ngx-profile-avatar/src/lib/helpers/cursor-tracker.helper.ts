@@ -1,95 +1,95 @@
-import { Vector2, EventDispatcher } from 'three';
+import { Vector2, EventDispatcher, Vector3 } from 'three';
 import { remap } from '../utils';
 
 export class CursorTracker extends EventDispatcher {
 
-	canvas: HTMLCanvasElement;
-	lastClientPosition: Vector2;
-	mousePosition: Vector2;
+	lastCursorPosition: Vector2;
+	cursorPosition: Vector2;
+	cursorRotation: Vector2;
 
-	constructor(canvas: HTMLCanvasElement) {
+	constructor(private canvas: HTMLCanvasElement) {
 		super();
-		this.canvas = canvas;
-		this.lastClientPosition = this.getCanvasCenterPositionPx();
-		this.mousePosition = this.getMousePosition();
-
-		document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this));
-		document.addEventListener('scroll', this.onDocumentScroll.bind(this));
 	}
 
-	onDocumentMouseMove(event: MouseEvent) {
 
+	public start() {
+		this.lastCursorPosition = this.getCenterPositionPx();
+		this.cursorPosition = this.getCursorPosition();
+
+		document.addEventListener('mousemove', this.onCursorMove.bind(this));
+		document.addEventListener('scroll', this.onScroll.bind(this));
+	}
+
+
+	private onCursorMove(event: MouseEvent) {
 		event.preventDefault();
-
 		const { clientX, clientY } = event;
 
-		this.lastClientPosition = new Vector2(clientX, clientY);
-		this.mousePosition = this.getMousePosition();
-
-		this.getDeltaToMouse();
+		this.lastCursorPosition = new Vector2(clientX, clientY);
+		this.cursorPosition = this.getCursorPosition();
+		this.cursorRotation = this.getCursorRotation();
 	}
 
-	onDocumentScroll(_: Event) {
-		this.mousePosition = this.getMousePosition();
-		this.getDeltaToMouse();
+
+	private onScroll(_: Event) {
+		this.cursorPosition = this.getCursorPosition();
+		this.cursorRotation = this.getCursorRotation();
 	}
 
-	getMousePosition() {
 
-		const { x, y } = this.lastClientPosition;
+	private getCursorPosition() {
+
+		const { x, y } = this.lastCursorPosition;
 		const { scrollX, scrollY, innerWidth, innerHeight } = window;
 
-		const mouseX = ((x + scrollX) / innerWidth) * 2 - 1;
-		const mouseY = -((y + scrollY) / innerHeight) * 2 + 1;
+		const cursorX = ((x + scrollX) / innerWidth) * 2 - 1;
+		const cursorY = -((y + scrollY) / innerHeight) * 2 + 1;
 
-		const mousePosition = new Vector2(mouseX, mouseY);
-		super.dispatchEvent({ type: 'mousePosition', data: mousePosition });
+		const data = new Vector2(cursorX, cursorY);
 
-		return mousePosition;
+		super.dispatchEvent({ type: 'cursorPosition', data });
+
+		return data;
 	}
 
-	getDeltaToMouse() {
-		if (!this.mousePosition || !this.canvas) return;
 
-		const canvasCenterPosition = this.getCanvasCenterPosition();
-		const deltaToMouse = new Vector2();
-		deltaToMouse.subVectors(this.mousePosition, canvasCenterPosition);
-		super.dispatchEvent({ type: 'deltaToMouse', data: deltaToMouse });
+	private getCursorRotation() {
 
-		return deltaToMouse;
+		if (!this.cursorPosition || !this.canvas) return;
+
+		const canvasCenterPosition = this.getCenterPosition();
+
+		const data = new Vector2();
+		data.subVectors(this.cursorPosition, canvasCenterPosition);
+
+		const { x, y } = data.clampScalar(-0.65, 0.65);
+		const dataClamp = new Vector3(-y, x, 0);
+
+		super.dispatchEvent({ type: 'cursorRotation', data: dataClamp });
+
+		return data;
 	}
 
-	getCanvasCenterPosition() {
 
-		const canvasPos = this.getCanvasCenterPositionPx();
+	private getCenterPosition() {
 
-		const centerX = remap({
-			value: canvasPos.x,
-			low1: 0,
-			low2: -1,
-			high1: window.innerWidth,
-			high2: 1,
-		});
+		const canvasPos = this.getCenterPositionPx();
 
-		const centerY = -remap({
-			value: canvasPos.y,
-			low1: 0,
-			low2: -1,
-			high1: window.innerHeight,
-			high2: 1,
-		});
+		const centerX = remap({ 'value': canvasPos.x, 'low1': 0, 'low2': -1, 'high1': window.innerWidth, 'high2': 1 });
+		const centerY = -remap({ 'value': canvasPos.y, 'low1': 0, 'low2': -1, 'high1': window.innerHeight, 'high2': 1 });
 
 		return new Vector2(centerX, centerY);
 	}
 
-	getCanvasCenterPositionPx() {
 
-		const { clientWidth, clientHeight } = this.canvas;
+	private getCenterPositionPx() {
+
+		const { width, height } = this.canvas;
 		const { left, top } = this.canvas.getBoundingClientRect();
 		const { pageXOffset, pageYOffset } = window;
 
-		const centerX = left + pageXOffset + clientWidth / 2;
-		const centerY = top + pageYOffset + clientHeight / 2;
+		const centerX = left + pageXOffset + width / 2;
+		const centerY = top + pageYOffset + height / 2;
 
 		return new Vector2(centerX, centerY);
 	}

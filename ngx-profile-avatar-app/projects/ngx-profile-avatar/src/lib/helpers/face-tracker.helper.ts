@@ -7,47 +7,62 @@ export class FaceTracker extends EventDispatcher {
 
 	predictor: AUPredictor;
 	subscription: Subscription;
-	stream: MediaStream;
-	videoAllowed: boolean = false;
 
 	constructor() {
 		super();
 		this.predictor = new AUPredictor({ apiToken: API_TOKEN, shouldMirrorOutput: true });
-		this.start();
+		this.stop();
+		this.setUserMediaAccesor();
 	}
 
-	async requestVideo() {
+	setUserMediaAccesor() {
 
-		if (this.videoAllowed) return;
+		if (navigator.mediaDevices.getUserMedia === undefined) {
 
-		this.stream = await navigator.mediaDevices.getUserMedia({
-			audio: false,
-			video: {
-				width: { ideal: 640 },
-				height: { ideal: 360 },
-				facingMode: 'user'
+			navigator.mediaDevices.getUserMedia = function (constraints) {
+
+				const getUserMedia = navigator['webkitGetUserMedia'] || navigator['mozGetUserMedia'];
+
+				if (!getUserMedia) {
+					return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+				}
+
+				return new Promise(function (resolve, reject) {
+					getUserMedia.call(navigator, constraints, resolve, reject);
+				});
 			}
-		});
-
-		this.videoAllowed = true;
-
+		}
 	}
 
-	async start() {
+	start() {
 
-		await this.requestVideo();
+		navigator.mediaDevices
+			.getUserMedia({
+				audio: false,
+				video: { width: { ideal: 640 }, height: { ideal: 360 }, facingMode: 'user' }
+			})
+			.then(stream => {
 
-		this.subscription = this.predictor.dataStream.subscribe(data => {
-			super.dispatchEvent({ type: 'faceDetection', data });
-		});
+				window['localStream'] = stream;
 
-		this.predictor.start({ stream: this.stream });
+				this.predictor.start({ stream }).then(() => {
+
+					this.subscription = this.predictor.dataStream.subscribe(data => {
+						super.dispatchEvent({ type: 'faceDetection', data });
+					});
+
+				});
+
+
+			})
+			.catch(console.error);
 
 	}
 
 	stop() {
-		this.predictor.stop();
+		this.predictor?.stop();
 		this.subscription?.unsubscribe();
+		window['localStream']?.getVideoTracks()[0]?.stop();
 	}
 
 }

@@ -70,6 +70,7 @@ export class AvatarObject3D extends Object3D {
 		this.cursorPosition = cursorPosition;
 	}
 
+
 	setFaceExpressions(faceExpressions: BlendShapes) {
 		this.faceExpressions = faceExpressions;
 	}

@@ -1,1 +1,15 @@
-<ngx-profile-avatar url="assets/avatar-half-body.glb" tracker="cursor"></ngx-profile-avatar>
+<ngx-profile-avatar url="assets/avatar-half-body.glb" [tracker]="tracker"></ngx-profile-avatar>
+
+<fieldset class="tracker-form">
+	<legend>Tracker</legend>
+
+	<div>
+		<input type="radio" id="cursor" name="tracker" value="cursor" [(ngModel)]="tracker">
+		<label for="cursor">Cursor</label>
+	</div>
+
+	<div>
+		<input type="radio" id="face" name="tracker" value="face" [(ngModel)]="tracker">
+		<label for="face">Face</label>
+	</div>
+</fieldset>
