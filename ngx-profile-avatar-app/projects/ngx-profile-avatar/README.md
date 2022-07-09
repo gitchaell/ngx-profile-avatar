@@ -53,7 +53,7 @@ export class AppModule { }
 1. Use the `ngx-profile-avatar` component as the example below:
 
 ```html
-<ngx-profile-avatar url="assets/avatar.glb" tracker="cursor" (onLoading)="onLoadingAvatar($event)">
+<ngx-profile-avatar url="assets/avatar.glb" tracker="cursor" width="100vw" height="100vh" (onLoading)="onLoadingAvatar($event)">
 </ngx-profile-avatar>
 ```
 
@@ -62,7 +62,9 @@ export class AppModule { }
 | Input         | Description | Type | Default |
 |:--------------|:------------|:-----|:--------|
 | `[url]` | Public or local location of the `.glb` file containing the 3d model of your avatar. | `string` | `null` |
-| `[tracker]` | Reaction method of your model.| `'cursor' 'face'` .| `'cursor'` |
+| `[tracker]` | Reaction method of your model.| `'cursor' 'face'` | `'cursor'` |
+| `[width]` | Width of the canvas.| `string` | `'100vw'` |
+| `[height]` | Height of the canvas.| `string` | `'100vh'` |
 | `(onLoading)` | Emitter of `.glb` file loading progress event.| `EventEmitter<ProgressEvent>` | `-` |
 
 > **Important**
