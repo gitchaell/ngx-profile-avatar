@@ -1,27 +1,70 @@
-# NgxProfileAvatarApp
+# Ngx Profile Avatar
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
+Interactive 3D Avatar Profile Viewer generated in Ready Player Me
 
-## Development server
+## Demos
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Cursor Tracker
 
-## Code scaffolding
+> The rotation of the model, head, eyes and neck will react to the movement of the cursor.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![Cursor Tracker Demo](../.github/demos/cursor-tracker.demo.gif)
 
-## Build
+### Face Tracker
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+> Model rotation, head, neck and facial animations will react to your expressions and movements detected by the camera.
 
-## Running unit tests
+![Face Tracker Demo](../.github/demos/face-tracker.demo.gif)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Generate your 3D Avatar
 
-## Running end-to-end tests
+1. Navigate to the following url: [vr.readyplayer.me/avatar](https://vr.readyplayer.me/avatar).
+1. Customize the look of your 3D avatar.
+1. When finished, copy the generated link to the file with extension `.glb` or download the file and add it to the `assets` folder of your project in `Angular`.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+![Avatar 3D Generator](../.github/images/avatar-3d-generator.png)
 
-## Further help
+## Instala NgxProfileAvatar
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+1. Install the library in your project with the command: `npm install @michaelldev/ngx-profile-avatar`.
+1. Import `NgxProfileAvatarModule` in your `app.module`.
+
+```typescript
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+
+import { NgxProfileAvatarModule } from '@michaelldev/ngx-profile-avatar';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    //...
+    NgxProfileAvatarModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+1. Use the `ngx-profile-avatar` component as the example below:
+
+```html
+<ngx-profile-avatar url="assets/avatar.glb" tracker="cursor" (onLoading)="onLoadingAvatar($event)">
+</ngx-profile-avatar>
+```
+
+1. Component documentation
+
+| Input         | Description | Type | Default |
+|:--------------|:------------|:-----|:--------|
+| `[url]` | Public or local location of the `.glb` file containing the 3d model of your avatar. | `string` | `null` |
+| `[tracker]` | Reaction method of your model.| `'cursor' 'face'` .| `'cursor'` |
+| `(onLoading)` | Emitter of `.glb` file loading progress event.| `EventEmitter<ProgressEvent>` | `-` |
+
+> **Important**
+>
+> Preferably, define tracker as `cursor` . The `face` option is still experimental.
