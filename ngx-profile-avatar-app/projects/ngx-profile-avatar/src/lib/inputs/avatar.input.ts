@@ -1,11 +1,11 @@
-export type AvatarTracker = 'Cursor' | 'Face';
+export type AvatarTracker = 'cursor' | 'face';
 
 export class AvatarInput {
 
 	url: string;
 	tracker?: AvatarTracker;
 
-	constructor({ url, tracker = 'Cursor' }: AvatarInput) {
+	constructor({ url, tracker = 'cursor' }: AvatarInput) {
 		this.url = url;
 		this.tracker = tracker;
 	}

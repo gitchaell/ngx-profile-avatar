@@ -17,8 +17,8 @@ export class AvatarFactory {
 
 		const builder = new AvatarBuilder(this.world, this.camera, this.renderer);
 
-		if (input.tracker === 'Cursor') builder.withCursorTracking();
-		if (input.tracker === 'Face') builder.withFaceTracking();
+		if (input.tracker === 'cursor') builder.withCursorTracking();
+		if (input.tracker === 'face') builder.withFaceTracking();
 
 		return builder.build();
 	}

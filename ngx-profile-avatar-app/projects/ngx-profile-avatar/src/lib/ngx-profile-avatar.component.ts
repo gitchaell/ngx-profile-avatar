@@ -11,7 +11,7 @@ import { ControlFactory } from './factories/control.factory';
 // Object
 import { AvatarObject3D } from './objects/avatar.object';
 // Input
-import { AvatarInput } from './inputs/avatar.input';
+import { AvatarInput, AvatarTracker } from './inputs/avatar.input';
 // Model
 import { Canvas } from './models/canvas';
 import { Clocker } from './models/clock';
@@ -28,6 +28,7 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 	@ViewChild('canvas') private canvasRef: ElementRef;
 
 	@Input() public url: string;
+	@Input() public tracker: AvatarTracker;
 
 
 	private async main() {
@@ -40,7 +41,7 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 		const camera = new CameraFactory(canvas).buildCamera();
 
-		const avatar = new AvatarFactory(renderer, world, camera).buildAvatar(new AvatarInput({ url: this.url, tracker: 'Face' }));
+		const avatar = new AvatarFactory(renderer, world, camera).buildAvatar(new AvatarInput({ url: this.url, tracker: this.tracker }));
 
 		const scene = new SceneFactory().buildScene(avatar);
 
@@ -76,7 +77,7 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 	constructor() { }
 
-	ngOnInit(): void { }
+	ngOnInit() { }
 
 	async ngAfterViewInit() {
 		await this.main();
