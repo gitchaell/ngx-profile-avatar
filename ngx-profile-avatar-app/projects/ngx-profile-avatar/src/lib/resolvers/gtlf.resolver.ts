@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export class GLTFResolver {
@@ -10,7 +11,7 @@ export class GLTFResolver {
 		return this;
 	}
 
-	async resolve(url: string): Promise<GLTF> {
+	async resolve(url: string, onLoading: EventEmitter<ProgressEvent>): Promise<GLTF> {
 		if (this.world) {
 			return new Promise((resolve) => resolve(this.world));
 		}
@@ -21,7 +22,7 @@ export class GLTFResolver {
 					this.world = world;
 					resolve(world);
 				},
-				({ loaded, total }) => { console.log('Loading ...', loaded / total * 100, '%') },
+				event => onLoading.emit(event),
 				error => reject(error)
 			);
 		});

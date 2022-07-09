@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Clock } from 'three';
 // Resolver
 import { GLTFResolver } from './resolvers/gtlf.resolver';
@@ -44,6 +44,8 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 	private _tracker: AvatarTracker;
 
+	@Output() onLoading = new EventEmitter<ProgressEvent>();
+
 
 	private get canvas() {
 		return this.canvasRef.nativeElement;
@@ -53,12 +55,15 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 		return this.canvas.parentNode;
 	}
 
-	private GLTFResolver = new GLTFResolver();
+
+	private get GLTFResolver() {
+		return new GLTFResolver();
+	}
 
 
 	private main() {
 
-		this.GLTFResolver.resolve(this.url)
+		this.GLTFResolver.resolve(this.url, this.onLoading)
 			.then(world => {
 
 				const canvas = new Canvas(this.canvas);

@@ -8,4 +8,8 @@ import { AvatarTracker } from 'projects/ngx-profile-avatar/src/public-api';
 })
 export class AppComponent {
 	tracker: AvatarTracker = 'cursor';
+
+	onLoadingAvatar({ loaded, total }: ProgressEvent) {
+		console.log(`Loading : ${Math.round(loaded / total * 100)}%`);
+	}
 }
