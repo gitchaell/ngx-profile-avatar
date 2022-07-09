@@ -16,18 +16,15 @@ import {
 @Component({
 	selector: 'ngx-profile-avatar',
 	template: `
-    <canvas #canvas id='canvas' style='width: 100%; height: 100%;'></canvas>`,
-	styles: [`
-    :host {
-        width: 100vw;
-        height: 100vh;
-    }`]
+    <canvas #canvas id="canvas" [ngStyle]="{ 'width': width, 'height': height }"></canvas>`,
 })
 export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('canvas') private canvasRef: ElementRef;
 
 	@Input() public url: string;
+	@Input() public width: string = '100vw';
+	@Input() public height: string = '100vh';
 
 
 	@Input() public set tracker(tracker: Tracker) {
