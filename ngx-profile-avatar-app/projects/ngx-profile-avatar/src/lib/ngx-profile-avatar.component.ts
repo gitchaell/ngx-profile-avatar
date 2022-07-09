@@ -20,8 +20,12 @@ import { Clocker } from './models/clock';
 @Component({
 	selector: 'ngx-profile-avatar',
 	template: `
-    <canvas #canvas id='canvas' style='height: 100vh; width: 100vw;'></canvas>`,
-	styles: []
+    <canvas #canvas id='canvas' style='width: 100%; height: 100%;'></canvas>`,
+	styles: [`
+    :host {
+        width: 100vw;
+        height: 100vh;
+    }`]
 })
 export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
