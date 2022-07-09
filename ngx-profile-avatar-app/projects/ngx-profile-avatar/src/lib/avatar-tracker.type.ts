@@ -1,0 +1,1 @@
+export type AvatarTracker = 'cursor' | 'face';

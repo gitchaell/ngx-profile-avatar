@@ -10,28 +10,6 @@ export class FaceTracker extends EventDispatcher {
 
 	constructor() {
 		super();
-		this.predictor = new AUPredictor({ apiToken: API_TOKEN, shouldMirrorOutput: true });
-		this.stop();
-		this.setUserMediaAccesor();
-	}
-
-	setUserMediaAccesor() {
-
-		if (navigator.mediaDevices.getUserMedia === undefined) {
-
-			navigator.mediaDevices.getUserMedia = function (constraints) {
-
-				const getUserMedia = navigator['webkitGetUserMedia'] || navigator['mozGetUserMedia'];
-
-				if (!getUserMedia) {
-					return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-				}
-
-				return new Promise(function (resolve, reject) {
-					getUserMedia.call(navigator, constraints, resolve, reject);
-				});
-			}
-		}
 	}
 
 	start() {
@@ -42,6 +20,8 @@ export class FaceTracker extends EventDispatcher {
 				video: { width: { ideal: 640 }, height: { ideal: 360 }, facingMode: 'user' }
 			})
 			.then(stream => {
+
+				this.predictor = new AUPredictor({ apiToken: API_TOKEN, shouldMirrorOutput: true });
 
 				window['localStream'] = stream;
 

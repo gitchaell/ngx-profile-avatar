@@ -1,6 +1,7 @@
 import { AnimationMixer, Group, Mesh, Object3D, Vector3, Vector2, PerspectiveCamera } from 'three';
 import { BlendShapeKeys, BlendShapes, Rotation, Transform } from '@quarkworks-inc/avatar-webkit';
 import { mapRange, lerp } from '../utils';
+import { AvatarTracker } from '../avatar-tracker.type';
 
 
 export class AvatarObject3D extends Object3D {
@@ -21,6 +22,9 @@ export class AvatarObject3D extends Object3D {
 	faceExpressions: BlendShapes;
 	faceRotation: Rotation;
 	faceTransform: Transform;
+
+	eyeLeftRotation = new Vector3(-1.5489931179359278, 5.002408635515016e-7, 3.141592528749793);
+	eyeRightRotation = new Vector3(-1.548993618155872, 2.618223344326663e-7, 3.1415925287497273);
 
 
 	constructor(
@@ -85,9 +89,9 @@ export class AvatarObject3D extends Object3D {
 
 
 
-	update(delta: number) {
-		this.trackCursor();
-		this.trackFace();
+	update(delta: number, tracker: AvatarTracker) {
+		if (tracker === 'cursor') this.trackCursor();
+		if (tracker === 'face') this.trackFace();
 		this.mixer.update(delta);
 	}
 
@@ -97,11 +101,7 @@ export class AvatarObject3D extends Object3D {
 	targetPos: Vector2 = new Vector2(0, 0);
 	currentPos: Vector2 = new Vector2(0, 0);
 
-	trackCursor() {
-
-		if (!this.cursorPosition || !this.cursorRotation) return;
-
-		this.head.rotation.set(this.cursorRotation.x, this.cursorRotation.y, 0);
+	setCurrentPos = () => {
 
 		const { x, y } = this.cursorPosition;
 
@@ -117,22 +117,50 @@ export class AvatarObject3D extends Object3D {
 		this.currentPos.x = lerp({ 'start': this.currentPos.x, 'end': this.targetPos.x });
 		this.currentPos.y = lerp({ 'start': this.currentPos.y, 'end': this.targetPos.y });
 
+	}
+
+	setHeadRotation = () => {
+		const { x, y } = this.cursorRotation;
+		this.head.rotation.set(x, y, 0);
 		// this.head.rotation.x = this.currentPos.x * 2;
 		// this.head.rotation.y = this.currentPos.y * 2;
+	}
 
+	setNeckRotation = () => {
 		this.neck.rotation.x = this.currentPos.x + 0.1;
 		this.neck.rotation.y = this.currentPos.y;
+	}
 
+	setEyeRotation = () => {
 		this.eye.right.rotation.x = this.currentPos.x - this.eyeRotationOffsetX;
 		this.eye.left.rotation.x = this.currentPos.x - this.eyeRotationOffsetX;
-
 		this.eye.right.rotation.z = this.currentPos.y * 3 + Math.PI;
 		this.eye.left.rotation.z = this.currentPos.y * 3 + Math.PI;
+	}
+
+	resetEyeRotation = () => {
+		this.eye.left.rotation.setFromVector3(this.eyeLeftRotation);
+		this.eye.right.rotation.setFromVector3(this.eyeRightRotation);
+	}
+
+
+	trackCursor() {
+
+		if (!this.cursorPosition || !this.cursorRotation) return;
+
+		this.setCurrentPos();
+
+		this.setHeadRotation();
+		this.setNeckRotation();
+		this.setEyeRotation();
+
 	}
 
 	trackFace() {
 
 		if (!this.faceExpressions || !this.faceRotation || !this.faceTransform) return;
+
+		this.resetEyeRotation();
 
 		Object.entries(this.faceExpressions).forEach(([key, value]) => {
 			const arKitKey = BlendShapeKeys.toARKitConvention(key);

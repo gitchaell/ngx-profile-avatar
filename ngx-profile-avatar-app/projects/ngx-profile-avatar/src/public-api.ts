@@ -4,6 +4,4 @@
 
 export * from './lib/ngx-profile-avatar.component';
 export * from './lib/ngx-profile-avatar.module';
-
-
-declare const Buffer;
+export * from './lib/avatar-tracker.type';

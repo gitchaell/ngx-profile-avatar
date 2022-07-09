@@ -7,34 +7,40 @@ export class CursorTracker extends EventDispatcher {
 	cursorPosition: Vector2;
 	cursorRotation: Vector2;
 
-	constructor(private canvas: HTMLCanvasElement) {
+
+	constructor(
+		private canvas: HTMLCanvasElement
+	) {
 		super();
+		this.lastCursorPosition = this.getCenterPositionPx();
+		this.cursorPosition = this.getCursorPosition();
 	}
 
 
 	public start() {
-		this.lastCursorPosition = this.getCenterPositionPx();
-		this.cursorPosition = this.getCursorPosition();
+		this.canvas.addEventListener('mousemove', this.onMouseMove);
+		this.canvas.addEventListener('scroll', this.onScroll);
+	}
 
-		document.addEventListener('mousemove', this.onCursorMove.bind(this));
-		document.addEventListener('scroll', this.onScroll.bind(this));
+	public stop() {
+		this.canvas.removeEventListener('mousemove', this.onMouseMove);
+		this.canvas.removeEventListener('scroll', this.onScroll);
 	}
 
 
-	private onCursorMove(event: MouseEvent) {
+	private onMouseMove = (event: MouseEvent) => {
 		event.preventDefault();
 		const { clientX, clientY } = event;
 
 		this.lastCursorPosition = new Vector2(clientX, clientY);
 		this.cursorPosition = this.getCursorPosition();
 		this.cursorRotation = this.getCursorRotation();
-	}
+	};
 
-
-	private onScroll(_: Event) {
+	private onScroll = () => {
 		this.cursorPosition = this.getCursorPosition();
 		this.cursorRotation = this.getCursorRotation();
-	}
+	};
 
 
 	private getCursorPosition() {
@@ -47,7 +53,7 @@ export class CursorTracker extends EventDispatcher {
 
 		const data = new Vector2(cursorX, cursorY);
 
-		super.dispatchEvent({ type: 'cursorPosition', data });
+		this.dispatchEvent({ type: 'cursorPosition', data });
 
 		return data;
 	}
@@ -65,7 +71,7 @@ export class CursorTracker extends EventDispatcher {
 		const { x, y } = data.clampScalar(-0.65, 0.65);
 		const dataClamp = new Vector3(-y, x, 0);
 
-		super.dispatchEvent({ type: 'cursorRotation', data: dataClamp });
+		this.dispatchEvent({ type: 'cursorRotation', data: dataClamp });
 
 		return data;
 	}

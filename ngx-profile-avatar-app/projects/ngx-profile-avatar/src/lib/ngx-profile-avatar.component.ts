@@ -12,9 +12,8 @@ import { ControlFactory } from './factories/control.factory';
 import { AvatarObject3D } from './objects/avatar.object';
 // Model
 import { Canvas } from './models/canvas';
-
-
-type AvatarTracker = 'cursor' | 'face';
+// Type
+import { AvatarTracker } from './avatar-tracker.type';
 
 
 @Component({
@@ -54,11 +53,12 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 		return this.canvas.parentNode;
 	}
 
+	private GLTFResolver = new GLTFResolver();
+
 
 	private main() {
 
-		new GLTFResolver()
-			.resolve(this.url)
+		this.GLTFResolver.resolve(this.url)
 			.then(world => {
 
 				const canvas = new Canvas(this.canvas);
@@ -77,11 +77,13 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 				this.container.appendChild(renderer.domElement);
 
+				const component = this;
+
 				(function render() {
 					window.requestAnimationFrame(render);
 					renderer.clear();
 					renderer.render(scene, camera);
-					scene.traverse((element: AvatarObject3D) => element?.update?.(clock.getDelta()));
+					scene.traverse((element: AvatarObject3D) => element?.update?.(clock.getDelta(), component.tracker));
 				}());
 
 				window.addEventListener('resize', () => {
