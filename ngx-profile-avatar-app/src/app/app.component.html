@@ -1,17 +1,34 @@
-<ngx-profile-avatar url="assets/avatar-half-body.glb" [tracker]="tracker" width="50vw" height="100vh"
-	(onLoading)="onLoadingAvatar($event)">
+<ngx-profile-avatar [url]="url" [tracker]="tracker" width="50vw" height="100vh" (onLoading)="onLoadingAvatar($event)">
 </ngx-profile-avatar>
 
-<fieldset class="tracker-form">
-	<legend>Tracker</legend>
+<div class="forms">
 
-	<div>
-		<input type="radio" id="cursor" name="tracker" value="cursor" [(ngModel)]="tracker">
-		<label for="cursor">Cursor</label>
-	</div>
+	<fieldset class="url-form">
+		<legend>3D Model</legend>
 
-	<div>
-		<input type="radio" id="face" name="tracker" value="face" [(ngModel)]="tracker">
-		<label for="face">Face</label>
-	</div>
-</fieldset>
+		<div>
+			<input type="radio" id="michaell" name="url" value="assets/michaell.avatar.glb" [(ngModel)]="url">
+			<label for="michaell">michaell.avatar.glb</label>
+		</div>
+
+		<div>
+			<input type="radio" id="paola" name="url" value="assets/paola.avatar.glb" [(ngModel)]="url">
+			<label for="paola">paola.avatar.glb</label>
+		</div>
+	</fieldset>
+
+	<fieldset class="tracker-form">
+		<legend>Tracker</legend>
+
+		<div>
+			<input type="radio" id="cursor" name="tracker" value="cursor" [(ngModel)]="tracker">
+			<label for="cursor">Cursor</label>
+		</div>
+
+		<div>
+			<input type="radio" id="face" name="tracker" value="face" [(ngModel)]="tracker">
+			<label for="face">Face</label>
+		</div>
+	</fieldset>
+
+</div>

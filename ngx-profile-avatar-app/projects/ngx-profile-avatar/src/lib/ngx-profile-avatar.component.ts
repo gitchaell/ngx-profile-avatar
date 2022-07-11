@@ -2,14 +2,14 @@ import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, Output,
 import { Clock } from 'three';
 import {
 	Tracker,
-	GLTFResolver,
+	AvatarObject3D,
 	Canvas,
 	RendererFactory,
 	CameraFactory,
 	AvatarFactory,
 	SceneFactory,
 	ControlFactory,
-	AvatarObject3D,
+	GLTFResolver,
 } from './index';
 
 
@@ -20,32 +20,49 @@ import {
 })
 export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
-	@ViewChild('canvas') private canvasRef: ElementRef;
+	@ViewChild('canvas')
+	private canvasRef: ElementRef;
 
-	@Input() public url: string;
-	@Input() public width: string = '100vw';
-	@Input() public height: string = '100vh';
+	@Input()
+	public width: string = '100vw';
 
+	@Input()
+	public height: string = '100vh';
 
-	@Input() public set tracker(tracker: Tracker) {
+	private _tracker: Tracker;
+
+	@Input()
+	public set tracker(tracker: Tracker) {
 		this._tracker = tracker;
 		this.main();
 	}
 
-	public get tracker(): Tracker {
+	public get tracker() {
 		return this._tracker;
 	}
 
-	private _tracker: Tracker;
+	private _url: string;
+
+	@Input()
+	public set url(url: string) {
+		this._url = url;
+		this.GLTFResolver.clean();
+		this.main();
+	}
+
+	public get url() {
+		return this._url;
+	}
+
 
 	@Output() onLoading = new EventEmitter<ProgressEvent>();
 
+	private GLTFResolver = new GLTFResolver();
 
 	private get canvas() { return this.canvasRef.nativeElement; }
 
 	private get container() { return this.canvas.parentNode; }
 
-	private get GLTFResolver() { return new GLTFResolver(); }
 
 
 	private main() {

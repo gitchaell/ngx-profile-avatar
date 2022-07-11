@@ -1,7 +1,14 @@
-fieldset.tracker-form {
+div.forms {
   position: absolute;
   top: 40px;
   right: 40px;
+}
+
+fieldset.tracker-form {
+  padding: 5px 20px 5px 10px;
+}
+
+fieldset.url-form {
   padding: 5px 20px 5px 10px;
 }
 
