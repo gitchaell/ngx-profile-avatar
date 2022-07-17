@@ -18,13 +18,13 @@ export class CursorTracker extends EventDispatcher {
 
 
 	public start() {
-		this.canvas.addEventListener('mousemove', this.onMouseMove);
-		this.canvas.addEventListener('scroll', this.onScroll);
+		document.addEventListener('mousemove', this.onMouseMove);
+		document.addEventListener('scroll', this.onScroll);
 	}
 
 	public stop() {
-		this.canvas.removeEventListener('mousemove', this.onMouseMove);
-		this.canvas.removeEventListener('scroll', this.onScroll);
+		document.removeEventListener('mousemove', this.onMouseMove);
+		document.removeEventListener('scroll', this.onScroll);
 	}
 
 
