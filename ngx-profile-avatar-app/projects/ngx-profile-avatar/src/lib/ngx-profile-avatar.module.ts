@@ -5,8 +5,8 @@ import { NgxProfileAvatarComponent } from './ngx-profile-avatar.component';
 
 
 @NgModule({
-	declarations: [NgxProfileAvatarComponent],
 	imports: [CommonModule],
+	declarations: [NgxProfileAvatarComponent],
 	exports: [NgxProfileAvatarComponent]
 })
 export class NgxProfileAvatarModule { }

@@ -1,6 +1,6 @@
 {
   "name": "@michaelldev/ngx-profile-avatar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Interactive 3D Avatar Profile Viewer generated in Ready Player Me",
   "author": {
     "name": "Michaell Alavedra",
@@ -43,5 +43,8 @@
   "devDependencies": {
     "@types/node": "^18.0.3",
     "@types/three": "^0.141.0"
+  },
+  "scripts": {
+    "prepublishOnly": ""
   }
 }
