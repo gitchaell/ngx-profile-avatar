@@ -24,7 +24,7 @@ Interactive 3D Avatar Profile Viewer generated in Ready Player Me
 
 ![Avatar 3D Generator](../../../.github/images/avatar-3d-generator.png)
 
-## Instala NgxProfileAvatar
+## Install NgxProfileAvatar
 
 1. Install the library in your project with the command: `npm install @michaelldev/ngx-profile-avatar`.
 1. Import `NgxProfileAvatarModule` in your `app.module`.
@@ -53,8 +53,29 @@ export class AppModule { }
 1. Use the `ngx-profile-avatar` component as the example below:
 
 ```html
-<ngx-profile-avatar url="assets/avatar.glb" tracker="cursor" width="100vw" height="100vh" (onLoading)="onLoadingAvatar($event)">
+<ngx-profile-avatar 
+    [url]="url" 
+    [tracker]="tracker" 
+    [enableRotate]="true" 
+    [enableZoom]="true" 
+    (loading)="onLoadingAvatar($event)" 
+    style="position: fixed;inset: 0;width: 50%;height: 100%;">
 </ngx-profile-avatar>
+```
+
+```typescript
+import { Tracker } from '@michaelldev/ngx-profile-avatar/lib';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+})
+export class AppComponent {
+
+  url: string = 'assets/avatar.glb';
+  tracker: Tracker = 'cursor';
+
+}
 ```
 
 1. Component documentation
@@ -63,9 +84,9 @@ export class AppModule { }
 |:--------------|:------------|:-----|:--------|
 | `[url]` | Public or local location of the `.glb` file containing the 3d model of your avatar. | `string` | `null` |
 | `[tracker]` | Reaction method of your model.| `'cursor' 'face'` | `'cursor'` |
-| `[width]` | Width of the canvas.| `string` | `'100vw'` |
-| `[height]` | Height of the canvas.| `string` | `'100vh'` |
-| `(onLoading)` | Emitter of `.glb` file loading progress event.| `EventEmitter<ProgressEvent>` | `-` |
+| `[enableRotate]` | Enable mouse interaction to rotate the model.| `boolean` | `true'` |
+| `[enableZoom]` | Enables mouse interaction to zoom in and out of the model.| `boolean` | `true` |
+| `(loading)` | Emitter of `.glb` file loading progress event or of the Facial Tracker initialization progress event.| `EventEmitter<ProgressEvent>` | `-` |
 
 > **Important**
 >
