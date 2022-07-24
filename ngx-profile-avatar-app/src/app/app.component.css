@@ -5,9 +5,11 @@
 }
 
 div.forms {
-  position: absolute;
-  top: 40px;
-  right: 40px;
+  position: fixed;
+  inset: 5%;
+  left: unset;
+  width: fit-content;
+  height: fit-content;
 }
 
 fieldset.tracker-form {

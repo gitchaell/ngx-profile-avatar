@@ -15,7 +15,7 @@ export class GLTFResolver {
 		this.world = null;
 	}
 
-	async resolve(url: string, onLoading: EventEmitter<ProgressEvent>): Promise<GLTF> {
+	async resolve(url: string, loading: EventEmitter<ProgressEvent>): Promise<GLTF> {
 		if (this.world) {
 			return new Promise((resolve) => resolve(this.world));
 		}
@@ -26,7 +26,7 @@ export class GLTFResolver {
 					this.world = world;
 					resolve(world);
 				},
-				event => onLoading.emit(event),
+				event => loading.emit(event),
 				error => reject(error)
 			);
 		});

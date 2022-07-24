@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { WebGLRenderer, PerspectiveCamera } from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { CursorTracker } from '../trackers/cursor.tracker';
@@ -16,6 +17,7 @@ export class AvatarBuilder {
 		private world: GLTF,
 		private camera: PerspectiveCamera,
 		private renderer: WebGLRenderer,
+		loading: EventEmitter<ProgressEvent>
 	) {
 		this.avatar = new AvatarObject3D(this.world.scene, this.camera);
 
@@ -24,7 +26,7 @@ export class AvatarBuilder {
 		this.cursorTracker.removeEventListener('cursorRotation', this.onCursorPosition);
 		this.cursorTracker.removeEventListener('cursorPosition', this.onCursorRotation);
 
-		this.faceTracker = new FaceTracker();
+		this.faceTracker = new FaceTracker(loading);
 		this.faceTracker.stop();
 		this.faceTracker.removeEventListener('faceDetection', this.onFaceDetection);
 

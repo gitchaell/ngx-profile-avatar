@@ -74,7 +74,7 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 				const camera = new CameraFactory(canvas).buildCamera();
 
-				const avatar = new AvatarFactory(renderer, world, camera).buildAvatar(this.tracker);
+				const avatar = new AvatarFactory(renderer, world, camera).buildAvatar(this.tracker, this.loading);
 
 				const scene = new SceneFactory(avatar).buildScene();
 
