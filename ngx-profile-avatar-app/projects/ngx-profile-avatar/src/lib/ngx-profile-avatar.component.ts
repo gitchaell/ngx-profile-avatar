@@ -16,6 +16,11 @@ import {
 	selector: 'ngx-profile-avatar',
 	template: `
     <canvas #canvas></canvas>`,
+	styles: [`
+    :host {
+        opacity: 0;
+        transition: opacity 1s;
+    }`],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
@@ -55,15 +60,17 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 
 	private get canvas(): HTMLCanvasElement {
-		return this.canvasRef.nativeElement;
+		return this.canvasRef?.nativeElement;
 	}
 
 	private get wrapper(): HTMLElement {
-		return this.canvas.parentElement;
+		return this.canvas?.parentElement;
 	}
 
 
 	private main() {
+
+		if (this.canvas && this.wrapper) this.wrapper.style.opacity = '0';
 
 		this.GLTFResolver.resolve(this.url, this.loading)
 			.then(world => {
@@ -83,6 +90,8 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 				const clock = new Clock();
 
 				this.wrapper.appendChild(renderer.domElement);
+
+				if (this.canvas && this.wrapper) this.wrapper.style.opacity = '1';
 
 				const self = this;
 
