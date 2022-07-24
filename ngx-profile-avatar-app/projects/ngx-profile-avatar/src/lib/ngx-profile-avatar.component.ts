@@ -54,6 +54,32 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 	}
 
 
+	private _enableRotate: boolean = true;
+
+	@Input()
+	public set enableRotate(enableRotate: boolean) {
+		this._enableRotate = enableRotate;
+		this.main();
+	}
+
+	public get enableRotate() {
+		return this._enableRotate;
+	}
+
+
+	private _enableZoom: boolean = true;
+
+	@Input()
+	public set enableZoom(enableZoom: boolean) {
+		this._enableZoom = enableZoom;
+		this.main();
+	}
+
+	public get enableZoom() {
+		return this._enableZoom;
+	}
+
+
 	@Output() loading = new EventEmitter<ProgressEvent>();
 
 	private GLTFResolver = new GLTFResolver();
@@ -85,7 +111,7 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 				const scene = new SceneFactory(avatar).buildScene();
 
-				const control = new ControlFactory(camera, renderer).buildControl();
+				const control = new ControlFactory(camera, renderer).buildControl({ enableRotate: this.enableRotate, enableZoom: this.enableZoom });
 
 				const clock = new Clock();
 

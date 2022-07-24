@@ -10,8 +10,8 @@ export class ControlFactory {
 		return this;
 	}
 
-	buildControl() {
-		return new ControlBuilder(this.camera, this.renderer).build()
+	buildControl(options) {
+		return new ControlBuilder(this.camera, this.renderer, options).build()
 	}
 
 }
