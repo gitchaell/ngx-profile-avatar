@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Clock } from 'three';
 import {
 	Tracker,
@@ -12,22 +12,16 @@ import {
 	GLTFResolver,
 } from './index';
 
-
 @Component({
 	selector: 'ngx-profile-avatar',
 	template: `
-    <canvas #canvas id="canvas" [ngStyle]="{ 'width': width, 'height': height }"></canvas>`,
+    <canvas #canvas></canvas>`,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('canvas')
-	private canvasRef: ElementRef;
-
-	@Input()
-	public width: string = '100vw';
-
-	@Input()
-	public height: string = '100vh';
+	private canvasRef: ElementRef<HTMLCanvasElement>;
 
 	private _tracker: Tracker;
 
@@ -55,22 +49,26 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 	}
 
 
-	@Output() onLoading = new EventEmitter<ProgressEvent>();
+	@Output() loading = new EventEmitter<ProgressEvent>();
 
 	private GLTFResolver = new GLTFResolver();
 
-	private get canvas() { return this.canvasRef.nativeElement; }
 
-	private get container() { return this.canvas.parentNode; }
+	private get canvas(): HTMLCanvasElement {
+		return this.canvasRef.nativeElement;
+	}
 
+	private get wrapper(): HTMLElement {
+		return this.canvas.parentElement;
+	}
 
 
 	private main() {
 
-		this.GLTFResolver.resolve(this.url, this.onLoading)
+		this.GLTFResolver.resolve(this.url, this.loading)
 			.then(world => {
 
-				const canvas = new Canvas(this.canvas);
+				const canvas = new Canvas(this.canvas, this.wrapper);
 
 				const renderer = new RendererFactory(canvas).buildRenderer();
 
@@ -84,22 +82,22 @@ export class NgxProfileAvatarComponent implements OnInit, AfterViewInit {
 
 				const clock = new Clock();
 
-				this.container.appendChild(renderer.domElement);
+				this.wrapper.appendChild(renderer.domElement);
 
-				const component = this;
+				const self = this;
 
 				(function render() {
 					window.requestAnimationFrame(render);
 					renderer.clear();
 					renderer.render(scene, camera);
-					scene.traverse((element: AvatarObject3D) => element?.update?.(clock.getDelta(), component.tracker));
+					scene.traverse((element: AvatarObject3D) => element?.update?.(clock.getDelta(), self.tracker));
 				}());
 
 				window.addEventListener('resize', () => {
 					camera.aspect = canvas.aspect;
 					camera.updateProjectionMatrix();
 					control.update();
-					renderer.setSize(canvas.width, canvas.height);
+					renderer.setSize(canvas.width, canvas.height, true);
 				});
 
 			})

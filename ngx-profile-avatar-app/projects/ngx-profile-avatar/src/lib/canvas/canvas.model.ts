@@ -1,16 +1,22 @@
 export class Canvas {
 
-
 	constructor(
-		public element: HTMLCanvasElement
+		public canvas: HTMLCanvasElement,
+		public wrapper: HTMLElement,
 	) { }
 
-	get width() {
-		return this.element.clientWidth;
+	parse(data: string): number {
+		return window.parseFloat(data.replace('px', ''));
 	}
 
+	get width() {
+		const { width } = window.getComputedStyle(this.wrapper);
+		return this.parse(width);
+	};
+
 	get height() {
-		return this.element.clientHeight;
+		const { height } = window.getComputedStyle(this.wrapper);
+		return this.parse(height);
 	}
 
 	get aspect() {

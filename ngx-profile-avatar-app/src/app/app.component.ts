@@ -11,6 +11,6 @@ export class AppComponent {
 	tracker = 'cursor';
 
 	onLoadingAvatar({ loaded, total }: ProgressEvent) {
-		console.log(`${this.url} - Loading : ${Math.round(loaded / total * 100)}%`);
+		// console.log(`${this.url} - Loading : ${Math.round(loaded / total * 100)}%`);
 	}
 }

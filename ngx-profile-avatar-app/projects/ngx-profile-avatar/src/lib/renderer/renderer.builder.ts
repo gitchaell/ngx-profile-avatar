@@ -5,13 +5,13 @@ export class RendererBuilder {
 
 	renderer: WebGLRenderer;
 
-	constructor({ element, width, height }: Canvas) {
+	constructor({ canvas, width, height }: Canvas) {
 
-		this.renderer = new WebGLRenderer({ canvas: element, alpha: true, antialias: true });
+		this.renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true });
 		this.renderer.physicallyCorrectLights = true;
 		this.renderer.outputEncoding = sRGBEncoding;
 		this.renderer.setClearColor(0xffffff, 0);
-		this.renderer.setSize(width, height);
+		this.renderer.setSize(width, height, true);
 
 		return this;
 	}

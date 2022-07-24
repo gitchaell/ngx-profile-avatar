@@ -1,3 +1,9 @@
+:host {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
 div.forms {
   position: absolute;
   top: 40px;
