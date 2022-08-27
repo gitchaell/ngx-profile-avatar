@@ -1,20 +1,20 @@
 {
   "name": "@michaelldev/ngx-profile-avatar",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Interactive 3D Avatar Profile Viewer generated in Ready Player Me",
   "author": {
     "name": "Michaell Alavedra",
     "email": "f.michaell.a.m@gmail.com",
-    "url": "https://github.com/MichaellAlavedraMunayco"
+    "url": "https://github.com/gitchaell"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MichaellAlavedraMunayco/ngx-profile-avatar.git"
+    "url": "git+https://github.com/gitchaell/ngx-profile-avatar.git"
   },
   "bugs": {
-    "url": "https://github.com/MichaellAlavedraMunayco/ngx-profile-avatar/issues"
+    "url": "https://github.com/gitchaell/ngx-profile-avatar/issues"
   },
-  "homepage": "https://MichaellAlavedraMunayco.github.io/ngx-profile-avatar",
+  "homepage": "https://gitchaell.github.io/ngx-profile-avatar",
   "keywords": [
     "profile",
     "threejs",
