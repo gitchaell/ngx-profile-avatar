@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build:app": "ng build",
+    "build:app": "ng build --prod --base-href https://gitchaell.github.io/ngx-profile-avatar/",
     "build:lib": "ng build ngx-profile-avatar --prod",
     "test": "ng test",
     "lint": "ng lint",

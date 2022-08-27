@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 import { Tracker } from '@michaelldev/ngx-profile-avatar/lib';
-import { environment } from 'src/environments/environment';
 
 export class AvatarData {
   url: string;
