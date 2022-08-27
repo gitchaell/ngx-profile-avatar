@@ -1,8 +1,20 @@
-# Ngx Profile Avatar
+<p align="center">
+  <a href="https://gitchaell.github.io/ngx-profile-avatar">
+    <img src=".github/images/logo.png" width="192px" height="192px"/>
+  </a>
+</p>
 
-Interactive 3D Avatar Profile Viewer generated in Ready Player Me
+<h1 align="center">
+  Ngx Profile Avatar
+</h1>
 
-## Demos
+<h4 align="center">
+  Interactive 3D Avatar Profile Viewer generated in Ready Player Me
+</h4>
+
+## Demo
+
+- You can see a live demo [here](https://gitchaell.github.io/ngx-profile-avatar)
 
 ### Cursor Tracker
 

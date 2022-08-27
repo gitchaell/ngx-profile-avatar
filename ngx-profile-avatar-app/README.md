@@ -12,7 +12,7 @@
   Interactive 3D Avatar Profile Viewer generated in Ready Player Me
 </h4>
 
-## Demos
+## Demo
 
 - You can see a live demo [here](https://gitchaell.github.io/ngx-profile-avatar)
 
